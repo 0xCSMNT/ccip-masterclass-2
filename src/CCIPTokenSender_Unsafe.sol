@@ -4,8 +4,8 @@ pragma solidity ^0.8.19;
 import {OwnerIsCreator} from "@chainlink/contracts-ccip/src/v0.8/shared/access/OwnerIsCreator.sol";
 import {IRouterClient} from "@chainlink/contracts-ccip/src/v0.8/ccip/interfaces/IRouterClient.sol";
 import {Client} from "@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.sol";
-import {IERC20} from "@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-solidity/v4.8.0/token/ERC20/IERC20.sol";
-import {SafeERC20} from "@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-solidity/v4.8.0/token/ERC20/utils/SafeERC20.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {LinkTokenInterface} from "@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
 
 /**
@@ -56,7 +56,7 @@ contract CCIPTokenSender_Unsafe is OwnerIsCreator {
             tokenAmounts: tokenAmounts,
             extraArgs: Client._argsToBytes(
                 // Gas limit is 0 because the receiver is an EOA, not smart contract
-                Client.EVMExtraArgsV1({gasLimit: 0, strict: false})
+                Client.EVMExtraArgsV1({gasLimit: 0}) // , strict: false (removed due to extra args error)
             ),
             feeToken: address(linkToken)
         });
